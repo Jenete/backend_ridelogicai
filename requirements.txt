@@ -7,3 +7,5 @@ PyPDF2
 pymupdf
 asyncio
 dotenv
+spacy
+rapidfuzz
