@@ -3,7 +3,6 @@ from flask_cors import CORS
 from pdf_service import PDFService, PlaceMapService
 from schedule_service import ScheduleService
 from chat_service import ChatService
-from nlp_test import extract_possible_routes, score_routes_by_query_match, generate_suggestions, match_locations_sort
 import os
 from dotenv import load_dotenv
 from datetime import datetime
@@ -120,44 +119,6 @@ def get_all_Routes():
         return jsonify({"places": places})
     else:
         return jsonify({"message": "No places available."}), 404
-    
-@app.route("/interpret", methods=["POST"])
-def interpret():
-    data = request.get_json()
-    query = data.get("query", "")
-
-    if not query:
-        return jsonify({"error": "Missing 'query' in request."}), 400
-
-    options = extract_possible_routes(query)
-    print("\nHere are some interpretations of your request:")
-
-    sorted_options = score_routes_by_query_match(query,options)
-    
-
-    interpretations = generate_suggestions(sorted_options)
-    print(interpretations)
-
-    return jsonify({
-        "query": query,
-        "interpretations": interpretations,
-        "options": sorted_options
-    })
-
-@app.route("/match-location", methods=["POST"])
-def match_location():
-    data = request.get_json()
-    query = data.get("query", "")
-
-    if not query:
-        return jsonify({"error": "Missing 'query' in request."}), 400
-
-    sorted_options = match_locations_sort(query)
-
-    return jsonify({
-        "query": query,
-        "options": sorted_options
-    })
 
 @app.route("/best-times", methods=["POST"])
 def best_times():
@@ -250,5 +211,6 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port)
 
     
+
 
 
