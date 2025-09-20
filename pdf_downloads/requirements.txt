@@ -1,0 +1,11 @@
+flask
+flask-cors
+beautifulsoup4
+requests
+gunicorn
+PyPDF2
+pymupdf
+asyncio
+dotenv
+spacy
+rapidfuzz
